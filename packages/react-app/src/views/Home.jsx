@@ -12,17 +12,13 @@ import { Link } from "react-router-dom";
 function Home({ yourLocalBalance, readContracts }) {
   // you can also use hooks locally in your component of choice
   // in this case, let's keep track of 'purpose' variable from our contract
-  const _purpose = useContractReader(readContracts, "YourContract", "purpose");
+  const purpose = useContractReader(readContracts, "YourContract", "purpose");
 
   return (
     <div>
-      <div style={{ margin: 32 }}>
+    <div style={{ margin: 32 }}>
         <span style={{ marginRight: 8 }}></span>
-        This is a{" "}
-        <a target="_blank" href="https://github.com/bhargavaparoksham/scaffold-eth-lens-starter-kit" rel="noreferrer">
-          Lens Protocol starter kit
-        </a>{" "}
-        built using Scaffold-ETH.
+        This is a <a target="_blank" href="https://github.com/bhargavaparoksham/scaffold-eth-lens-starter-kit">Lens Protocol starter kit</a> built using Scaffold-ETH.
       </div>
       <div style={{ margin: 32 }}>
         <span style={{ marginRight: 8 }}>📝</span>
@@ -36,13 +32,13 @@ function Home({ yourLocalBalance, readContracts }) {
       </div>
       <div style={{ margin: 32 }}>
         <span style={{ marginRight: 8 }}>📝</span>
-        Note that official Lens contracts are currently deployed on Polygon Mumbai Testnet so make sure you are
-        connected to the same network on Metamask.
+        Note that official Lens contracts are currently deployed on Polygon Mumbai Testnet so make sure you are connected to the same network on Metamask.
       </div>
       <div style={{ margin: 32 }}>
         <span style={{ marginRight: 8 }}>💭</span>
         Check out the <Link to="/hints">"Hints"</Link> tab for more tips.
       </div>
+
     </div>
   );
 }
