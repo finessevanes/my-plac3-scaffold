@@ -1,9 +1,8 @@
-import { Button, Card, DatePicker, Divider, Input, Progress, Slider, Spin, Switch } from "antd";
+import { Button, Divider, Input } from "antd";
 import React, { useState } from "react";
 import { utils } from "ethers";
-import { SyncOutlined } from "@ant-design/icons";
 
-import { Address, Balance, Events } from "../components";
+import { Address, Balance } from "../components";
 
 export default function ExampleUI({
   purpose,
@@ -15,7 +14,6 @@ export default function ExampleUI({
   tx,
   readContracts,
   writeContracts,
-  blockExplorer,
 }) {
   const [newPurpose, setNewPurpose] = useState("loading...");
   const [userHandle, setUserHandle] = useState(null);
@@ -34,21 +32,21 @@ export default function ExampleUI({
         <Divider />
         <h3>Create Profile</h3>
         <div style={{ margin: 8 }}>
-        Handle: 
-        <Input 
-          placeholder="Enter unique handle"
-          onChange={e => {
+          Handle:
+          <Input
+            placeholder="Enter unique handle"
+            onChange={e => {
               setUserHandle(e.target.value);
             }}
           />
-        Profile Image URI: 
-        <Input 
-          placeholder="Enter IPFS URI" 
-          onChange={e => {
+          Profile Image URI:
+          <Input
+            placeholder="Enter IPFS URI"
+            onChange={e => {
               setProfileURI(e.target.value);
             }}
-          /> 
-        <Button
+          />
+          <Button
             style={{ marginTop: 8 }}
             onClick={async () => {
               /* look how you call setPurpose on your contract: */
@@ -59,7 +57,7 @@ export default function ExampleUI({
                 imageURI: profileURI,
                 followModule: "0x0000000000000000000000000000000000000000",
                 followModuleData: [],
-                followNFTURI:'',
+                followNFTURI: "",
               };
               const result = tx(writeContracts.ProfileCreationProxy.proxyCreateProfile(inputStruct), update => {
                 console.log("📡 Transaction Update:", update);
@@ -72,42 +70,51 @@ export default function ExampleUI({
               console.log("awaiting metamask/web3 confirm result...", result);
               console.log(await result);
             }}
-        > Submit
-        </Button>  
+          >
+            {" "}
+            Submit
+          </Button>
         </div>
         <Divider />
         <h3>Follow Profile</h3>
-        User Profile ID: 
-        <Input 
-        onChange={e => {
-              setProfileID(e.target.value);
+        User Profile ID:
+        <Input
+          onChange={e => {
+            setProfileID(e.target.value);
           }}
-        /> 
+        />
         <Button
-            style={{ marginTop: 8 }}
-            onClick={async () => {
-              /* look how you call setPurpose on your contract: */
-              /* notice how you pass a call back for tx updates too */
-              const result = tx(writeContracts.LensHubProxy.follow([profileID],[[]]), update => {
-                console.log("📡 Transaction Update:", update);
-                setTxHash(update.hash);
-                if (update && (update.status === "confirmed" || update.status === 1)) {
-                  console.log(" 🍾 Transaction " + update.hash + " finished!");
-                  setTxStatus("Successfull");
-                }
-              });
-              console.log("awaiting metamask/web3 confirm result...", result);
-              console.log(await result);
-            }}
-        > Follow
-        </Button> 
-
+          style={{ marginTop: 8 }}
+          onClick={async () => {
+            /* look how you call setPurpose on your contract: */
+            /* notice how you pass a call back for tx updates too */
+            const result = tx(writeContracts.LensHubProxy.follow([profileID], [[]]), update => {
+              console.log("📡 Transaction Update:", update);
+              setTxHash(update.hash);
+              if (update && (update.status === "confirmed" || update.status === 1)) {
+                console.log(" 🍾 Transaction " + update.hash + " finished!");
+                setTxStatus("Successfull");
+              }
+            });
+            console.log("awaiting metamask/web3 confirm result...", result);
+            console.log(await result);
+          }}
+        >
+          {" "}
+          Follow
+        </Button>
         <Divider />
         <h3>Txn Details</h3>
         <div style={{ margin: 8 }}>
-        {txHash ? (<a target="_blank" href={"https://mumbai.polygonscan.com/tx/" + txHash}>Txn Hash</a>) : "Txn Hash"}
-        <br></br>
-        Txn Status: {txStatus}
+          {txHash ? (
+            <a target="_blank" href={"https://mumbai.polygonscan.com/tx/" + txHash} rel="noreferrer">
+              Txn Hash
+            </a>
+          ) : (
+            "Txn Hash"
+          )}
+          <br></br>
+          Txn Status: {txStatus}
         </div>
       </div>
 
@@ -236,73 +243,6 @@ export default function ExampleUI({
             Another Example
           </Button>
         </div>
-      </div>
-
-      {/*
-        📑 Maybe display a list of events?
-          (uncomment the event and emit line in YourContract.sol! )
-      */}
-      <Events
-        contracts={readContracts}
-        contractName="YourContract"
-        eventName="SetPurpose"
-        localProvider={localProvider}
-        mainnetProvider={mainnetProvider}
-        startBlock={1}
-      />
-
-      <div style={{ width: 600, margin: "auto", marginTop: 32, paddingBottom: 256 }}>
-        <Card>
-          Check out all the{" "}
-          <a
-            href="https://github.com/austintgriffith/scaffold-eth/tree/master/packages/react-app/src/components"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            📦 components
-          </a>
-        </Card>
-
-        <Card style={{ marginTop: 32 }}>
-          <div>
-            There are tons of generic components included from{" "}
-            <a href="https://ant.design/components/overview/" target="_blank" rel="noopener noreferrer">
-              🐜 ant.design
-            </a>{" "}
-            too!
-          </div>
-
-          <div style={{ marginTop: 8 }}>
-            <Button type="primary">Buttons</Button>
-          </div>
-
-          <div style={{ marginTop: 8 }}>
-            <SyncOutlined spin /> Icons
-          </div>
-
-          <div style={{ marginTop: 8 }}>
-            Date Pickers?
-            <div style={{ marginTop: 2 }}>
-              <DatePicker onChange={() => {}} />
-            </div>
-          </div>
-
-          <div style={{ marginTop: 32 }}>
-            <Slider range defaultValue={[20, 50]} onChange={() => {}} />
-          </div>
-
-          <div style={{ marginTop: 32 }}>
-            <Switch defaultChecked onChange={() => {}} />
-          </div>
-
-          <div style={{ marginTop: 32 }}>
-            <Progress percent={50} status="active" />
-          </div>
-
-          <div style={{ marginTop: 32 }}>
-            <Spin />
-          </div>
-        </Card>
       </div>
     </div>
   );
