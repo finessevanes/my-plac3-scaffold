@@ -8,7 +8,7 @@
 
 # 🏗 Scaffold-ETH
 
-> everything you need to build on Ethereum! 🚀
+> everything you need to build on Ethereum! 
 
 🧪 Quickly experiment with Solidity using a frontend that adapts to your smart contract:
 
